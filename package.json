@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "@googleapis/walletobjects": "^1.0.0",
+    "dotenv": "^16.4.7",
+    "jsonwebtoken": "^9.0.2"
+  }
+}
