@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creating a Web Service for Google and Apple Wallet Passes with Node.js</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+            background: #fff;
+        }
+        h1, h2, h3 {
+            color: #333;
+        }
+        pre {
+            background: #f4f4f4;
+            padding: 10px;
+            border: 1px solid #ddd;
+            overflow-x: auto;
+        }
+        code {
+            background: #f4f4f4;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+        a {
+            color: #1a0dab;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Creating a Web Service for Google and Apple Wallet Passes with Node.js</h1>
+        <h3>Introduction</h3>
+        <p>After spending a couple of months learning and developing a web service with Node.js for Google and Apple Wallet, I realized that there is limited information available online about this topic. To bridge this gap, I decided to write an article to assist others who are interested in creating similar services.</p>
+        <p>In this article, I will guide you through the process of creating and updating Google and Apple Wallet passes.</p>
+        
+        <h2>Table of Contents</h2>
+        <ol>
+            <li><a href="#google">Google Wallet Integration</a></li>
+            <li><a href="#preparation">Preparation</a></li>
+            <li><a href="#creating-pass-classes-and-objects">Creating Pass Classes and Objects</a></li>
+            <li><a href="#generating-add-to-wallet-link">Generating Add to Wallet Link</a></li>
+            <li><a href="#updating-pass-classes-and-objects">Updating Pass Classes and Objects</a></li>
+            <li><a href="#expiring-pass-objects">Expiring Pass Objects</a></li>
+            <li><a href="#conclusion">Conclusion</a></li>
+        </ol>
+
+        <h2 id="google">Google Wallet Integration</h2>
+        <p>Let's start with the Google integration, as it is relatively easier and faster. My code is based on the Node.js examples from the google-wallet repository, which I modified to suit my needs. You can find the repository here: <a href="https://github.com/google-wallet/rest-samples">https://github.com/google-wallet/rest-samples</a></p>
+
+        <h3 id="preparation">Preparation</h3>
+        <p>Before diving into the code, you need to prepare a few things. Ensure that you meet the requirements to create passes with Google. Follow the steps outlined in the <a href="https://developers.google.com/wallet/retail/loyalty-cards#requirements">Google Wallet prerequisites</a>.</p>
+        <ul>
+            <li>Create a <a href="https://developers.google.com/wallet/retail/loyalty-cards/getting-started/issuer-onboarding">Google Wallet API Issuer account</a>.</li>
+            <li>Non-Android developers: Create a <a href="https://console.cloud.google.com/freetrial">Google Cloud account</a>.</li>
+            <li>Android developers: <a href="https://developers.google.com/android/guides/setup">Set up Google Play services</a>.</li>
+        </ul>
+        <p>Once you meet the requirements, you can follow the Google guide or continue reading.</p>
+        <p>First, install the dependencies:</p>
+        <pre><code>@googleapis/walletobjects
+dotenv
+jsonwebtoken</code></pre>
+        <p>To create a pass in Google Wallet, you first need to create the Pass Class, which contains information about the pass creator, or <em>pass issuer</em> in Google terms. Once the Pass Class is created, you create the Pass Object, which is the instance of the pass.</p>
+        <p>Before creating the classes, I defined types to work better:</p>
+        <pre><code>/**
+ * @typedef {object} LoyaltyClass
+ * @property {string} programName
+ * @property {string} issuerName
+ * @property {string} logoUri
+ */
+
+/**
+ * @typedef {object} LoyaltyObject
+ * @property {string} QrCodeLink
+ * @property {string} accountId
+ * @property {string} FullName
+ * @property {int} [points]
+ */</code></pre>
+        <p>To work better, I created a class called LoyaltyPass, which handles everything related to passes:</p>
+        <pre><code>class LoyaltyPass {
+  constructor() {
+    // ...existing code...
+  }
+
+  auth() {
+    // ...existing code...
+  }
+
+  async createClass(classSuffix, loyaltyClass) {
+    // ...existing code...
+  }
+
+  async createObject(classSuffix, objectSuffix, loyaltyObject) {
+    // ...existing code...
+  }
+
+  createJwtExistingObject(classSuffix, objectSuffix) {
+    // ...existing code...
+  }
+
+  async patchClass(classSuffix, loyaltyClass) {
+    // ...existing code...
+  }
+
+  async patchObject(objectSuffix, loyaltyObject) {
+    // ...existing code...
+  }
+
+  async expireObject(objectSuffix) {
+    // ...existing code...
+  }
+}</code></pre>
+        <p>Finally to run the code I created a <code>main.js</code> file:</p>
+        <pre><code>require('dotenv').config();
+
+const { LoyaltyPass } = require('./loyaltyPass');
+
+async function main() {
+  let loyaltyPass = new LoyaltyPass();
+
+  const class_suffix = 'my-loyalty-class';
+  const object_suffix = 'my-loyalty-object';
+
+  // Create a pass class
+  const myClass = await loyaltyPass.createClass(
+    class_suffix,
+    {
+      programName: 'My Loyalty Program',
+      issuerName: 'My Company',
+      logoUri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/150px-Google_%22G%22_logo.svg.png',
+    }
+  );
+
+  // Create a pass object
+  const myObject = await loyaltyPass.createObject(
+    class_suffix,
+    object_suffix,
+    {
+      accountId: 'SQ-13579A',
+      FullName: 'John Doe',
+      QrCodeLink: 'https://www.qrstuff.com/images/default_qrcode.png'
+    }
+  );
+
+  // Generate an Add to Google Wallet link that creates a new pass class and object
+  const myJwt = await loyaltyPass.createJwtExistingObject(
+    class_suffix,
+    object_suffix
+  );
+
+  // Update a pass class
+  const patchedClass = await loyaltyPass.patchClass(
+    class_suffix,
+    {
+      programName: 'Loyalty Program Renewed!',
+      issuerName: 'My Company Renewed',
+      logoUri: 'https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg'
+    }
+  )
+
+  // Update a pass object
+  const patchedObject = await loyaltyPass.patchObject(
+    object_suffix,
+    {
+      accountId: 'SQ-13579A',
+      FullName: 'John Doe',
+      QrCodeLink: 'https://www.qrstuff.com/images/default_qrcode.png',
+      points: 100
+    }
+  )
+
+  // Expire a pass object
+  const expiredObject = await loyaltyPass.expireObject(
+    object_suffix
+  )
+
+}
+
+main().catch(console.error);</code></pre>
+    </div>
+</body>
+</html>
