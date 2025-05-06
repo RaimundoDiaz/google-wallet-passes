@@ -2,11 +2,13 @@
 
 ## Introduction
 
-After spending a couple of months learning and developing a web service with Node.js for Google and Apple Wallet, I realized that there is limited information available online about this topic. To bridge this gap, I decided to write an article to assist others who are interested in creating similar services.
+Digital wallet passes are increasingly popular for loyalty programs, event tickets, and more, offering convenience for both users and businesses. While developing a web service for Google and Apple Wallet using Node.js, I noticed a lack of comprehensive resources on this topic. To bridge this gap, I decided to write an article to assist others who are interested in creating similar services.
 
 In this article, I will guide you through the process of creating and updating Google and Apple Wallet passes.
 
 ## Table of Contents
+
+This article is structured as follows to guide you step-by-step through the process:
 
 - [Creating a Web Service for Google and Apple Wallet Passes with Node.js](#creating-a-web-service-for-google-and-apple-wallet-passes-with-nodejs)
   - [Introduction](#introduction)
@@ -21,19 +23,17 @@ In this article, I will guide you through the process of creating and updating G
 
 ## Google
 
-Let's start with the Google integration, as it is relatively easier and faster. My code is based on the Node.js examples from the google-wallet repository, which I modified to suit my needs. You can find the repository here: <https://github.com/google-wallet/rest-samples>
+We’ll begin with Google Wallet integration, as it is simpler and quicker to implement compared to Apple Wallet. The code examples in this article are based on the Node.js samples from the [Google Wallet repository](https://github.com/google-wallet/rest-samples), which I have customized for this project.
 
 ### Preparation
 
-Before diving into the code, you need to prepare a few things. Ensure that you meet the requirements to create passes with Google. Follow the steps outlined in the [Google Wallet prerequisites](https://developers.google.com/wallet/retail/loyalty-cards#requirements).
+Before writing any code, it’s essential to ensure you have the necessary accounts and tools set up to avoid issues later. Follow the steps outlined in the [Google Wallet prerequisites](https://developers.google.com/wallet/retail/loyalty-cards#requirements).
 
-- Create a [Google Wallet API Issuer account](https://developers.google.com/wallet/retail/loyalty-cards/getting-started/issuer-onboarding).
-- Non-Android developers: Create a [Google Cloud account](https://console.cloud.google.com/freetrial).
-- Android developers: [Set up Google Play services](https://developers.google.com/android/guides/setup).
+1. Create a [Google Wallet API Issuer account](https://developers.google.com/wallet/retail/loyalty-cards/getting-started/issuer-onboarding).
+2. For non-Android developers: Create a [Google Cloud account](https://console.cloud.google.com/freetrial).
+3. For Android developers: [Set up Google Play services](https://developers.google.com/android/guides/setup).
 
-Once you meet the requirements, you can follow the Google guide or continue reading.
-
-First, install the dependencies:
+The following dependencies are required to interact with the Google Wallet API and manage environment variables securely:
 
 ```
   @googleapis/walletobjects
