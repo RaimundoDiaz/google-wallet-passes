@@ -489,7 +489,7 @@ We can also expire the pass
 
 ### How to run the code
 
-Finally to run the code I created a `main.js` file
+Finally to run the code I created a `main.js` file. You can just do `node main.js` to run it.
 
 `main.js`
 
