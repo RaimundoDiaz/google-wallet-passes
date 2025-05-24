@@ -133,6 +133,14 @@ class LoyaltyPass {
 `LoyaltyPass.createClass`
 
 ```js
+/**
+   * Create a class.
+   *
+   * @param {string} classSuffix Developer-defined unique ID for this pass class.
+   * @param {LoyaltyClass} loyaltyClass The properties for the loyalty class to create.
+   *
+   * @returns {string} The pass class ID: `${issuerId}.${classSuffix}`
+   */
 async createClass(classSuffix, loyaltyClass) {
     let response;
 
