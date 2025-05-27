@@ -1,16 +1,16 @@
-# Creating a Web Service for Google and Apple Wallet Passes with Node.js
+# Building a Web Service for Google Wallet Passes with Node.js: A Comprehensive Guide
 
 ## Introduction
 
-Digital wallet passes are increasingly popular for loyalty programs, event tickets, and more, offering convenience for both users and businesses. While developing a web service for Google and Apple Wallet using Node.js, I noticed a lack of comprehensive resources on this topic. To bridge this gap, I decided to write an article to assist others who are interested in creating similar services.
+Digital wallet passes have become increasingly popular for loyalty programs, event tickets, and more, offering convenience for both users and businesses. After spending a couple months of development and research into creating a web service for Google and Apple Wallet using Node.js, I noticed a significant gap in available online resources on this topic. This article aims to bridge that gap by providing a comprehensive guide for developers interested in implementing similar services.
 
-In this article, I will guide you through the process of creating and updating Google and Apple Wallet passes.
+In this article, I will walk you through the process of creating and updating passes for Google Wallet,.
 
 ## Table of Contents
 
 This article is structured as follows to guide you step-by-step through the process:
 
-- [Creating a Web Service for Google and Apple Wallet Passes with Node.js](#creating-a-web-service-for-google-and-apple-wallet-passes-with-nodejs)
+- [Building a Web Service for Google Wallet Passes with Node.js: A Comprehensive Guide](#building-a-web-service-for-google-wallet-passes-with-nodejs-a-comprehensive-guide)
   - [Introduction](#introduction)
   - [Table of Contents](#table-of-contents)
   - [Google](#google)
@@ -19,15 +19,15 @@ This article is structured as follows to guide you step-by-step through the proc
     - [Generating Add to Wallet Link](#generating-add-to-wallet-link)
     - [Updating Pass Classes and Objects](#updating-pass-classes-and-objects)
     - [Expiring Pass Objects](#expiring-pass-objects)
-    - [How to run the code](#how-to-run-the-code)
+    - [How to Run the Code](#how-to-run-the-code)
 
 ## Google
 
-We’ll begin with Google Wallet integration, as it is simpler and quicker to implement compared to Apple Wallet. The code examples in this article are based on the Node.js samples from the [Google Wallet repository](https://github.com/google-wallet/rest-samples), which I have customized for this project.
+We'll begin with Google Wallet integration, as it is simpler and quicker to implement compared to Apple Wallet. The code examples in this article are based on the Node.js samples from the [Google Wallet repository](https://github.com/google-wallet/rest-samples), which I have customized for this project.
 
 ### Preparation
 
-Before writing any code, it’s essential to ensure you have the necessary accounts and tools set up to avoid issues later. Follow the steps outlined in the [Google Wallet prerequisites](https://developers.google.com/wallet/retail/loyalty-cards#requirements).
+Before writing any code, it's essential to ensure you have the necessary accounts and tools set up to avoid issues later. Follow the steps outlined in the [Google Wallet prerequisites](https://developers.google.com/wallet/retail/loyalty-cards#requirements).
 
 1. Create a [Google Wallet API Issuer account](https://developers.google.com/wallet/retail/loyalty-cards/getting-started/issuer-onboarding).
 2. For non-Android developers: Create a [Google Cloud account](https://console.cloud.google.com/freetrial).
@@ -43,9 +43,9 @@ The following dependencies are required to interact with the Google Wallet API a
 
 ### Creating Pass Classes and Objects
 
-To create a pass in Google Wallet, you first need to create the Pass Class, which contains information about the pass creator, or _pass issuer_ in Google terms. Once the Pass Class is created, you create the Pass Object, which is the instance of the pass.
+To create a pass in Google Wallet, you first need to create a Pass Class, which contains information about the pass creator (referred to as the _pass issuer_ in Google's terminology). Once the Pass Class is created, you can create the Pass Object, which represents an instance of the pass.
 
-Before creating the classes, I defined types to work better:
+Before creating the classes, I defined types to improve code organization:
 
 ```js
 /**
@@ -115,7 +115,7 @@ class LoyaltyPass {
   auth() {
     const auth = new GoogleAuth({
       // Here instead of using credentials you can use `keyFile: this.keyFile`
-      // I rather use credentials to prevent uploading sensitive data as the keyFile where I will be hosting my code
+      // I prefer using credentials to prevent uploading sensitive data like the keyFile where I will be hosting my code
       credentials: this.credentials,
       scopes: ["https://www.googleapis.com/auth/wallet_object.issuer"],
     });
@@ -261,7 +261,7 @@ After creating the Pass Class we can create the Pass Object:
 
 ### Generating Add to Wallet Link
 
-Finally we can generate the addToWallet link for the created pass
+After creating the pass, we can generate an "Add to Wallet" link that users can use to add the pass to their Google Wallet:
 
 `loyaltyPass.js`
 
@@ -495,9 +495,9 @@ We can also expire the pass
   }
 ```
 
-### How to run the code
+### How to Run the Code
 
-Finally to run the code I created a `main.js` file. You can just do `node main.js` to run it.
+To run the code, I've created a `main.js` file that demonstrates all the functionality. You can execute it by running `node main.js`. Here's what the main file looks like:
 
 `main.js`
 
@@ -555,3 +555,5 @@ async function main() {
 
 main().catch(console.error);
 ```
+
+This example demonstrates the complete lifecycle of a Google Wallet pass, from creation to expiration. Each step is clearly commented to help you understand the process. Make sure to set up your environment variables in a `.env` file before running the code.
