@@ -2,6 +2,8 @@
 
 This project is based on the Node.js examples from the Google Wallet repository, which I modified to suit my needs. You can find the original repository here: [google-wallet/rest-samples](https://github.com/google-wallet/rest-samples).
 
+In this article, I will walk you through the process of creating and updating passes for Google Wallet. I also cover the process for [Apple Wallet here](https://github.com/RaimundoDiaz/apple-wallet-passes).
+
 ## Prerequisites
 
 * Node.js 18.x
