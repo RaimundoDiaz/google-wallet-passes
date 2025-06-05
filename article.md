@@ -4,7 +4,7 @@
 
 Digital wallet passes have become increasingly popular for loyalty programs, event tickets, and more, offering convenience for both users and businesses. After spending a couple months of development and research into creating a web service for Google and Apple Wallet using Node.js, I noticed a significant gap in available online resources on this topic. This article aims to bridge that gap by providing a comprehensive guide for developers interested in implementing similar services.
 
-In this article, I will walk you through the process of creating and updating passes for Google Wallet.
+In this article, I will walk you through the process of creating and updating passes for Google Wallet. I also cover the process for [Apple Wallet here](https://github.com/RaimundoDiaz/apple-wallet-passes).
 
 ## Table of Contents
 
